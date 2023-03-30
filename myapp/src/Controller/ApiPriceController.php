@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Price;
 use App\Repository\PriceRepository;
 use App\Service\PriceCreationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,15 +19,7 @@ class ApiPriceController extends AbstractController
     public function index(PriceRepository $priceRepository): JsonResponse
     {
         $prices = $priceRepository->findAll();
-        return $this->json(array_map(static function ($price) {
-            return [
-                'id' => $price->getId(),
-                'name' => $price->getName(),
-                'variant' => $price->getVariant(),
-                'category' => $price->getCategory() ? $price->getCategory()->getName() : null,
-                'price' => $price->getPrice()
-            ];
-        }, $prices));
+        return $this->json(array_map([$this, 'entityToArray'], $prices));
     }
 
     /**
@@ -46,7 +39,7 @@ class ApiPriceController extends AbstractController
 
             //use validator
             if (empty($name) || empty($variant) || empty($price) || empty($currency) || empty($categoryId)) {
-                throw new \RuntimeException('Provided not all data: '  . json_encode($request->toArray()));
+                throw new \RuntimeException('Provided not all data');
             }
 
             $productPrice = $priceCreationService->createPrice($price, $currency, $name, $variant, $categoryId);
@@ -54,7 +47,7 @@ class ApiPriceController extends AbstractController
             //transform entity to dto
             return $this->json([
                     'status' => 'success',
-                    'context' => $productPrice,
+                    'context' => $this->entityToArray($productPrice),
                     'message' => null
                 ]
             );
@@ -66,5 +59,17 @@ class ApiPriceController extends AbstractController
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+    private function entityToArray(Price $price): array
+    {
+        return [
+            'id' => $price->getId(),
+            'name' => $price->getName(),
+            'variant' => $price->getVariant(),
+            'category' => $price->getCategory() ? $price->getCategory()->getName() : null,
+            'price' => $price->getPrice(),
+            'currency' => $price->getCurrency(),
+        ];
     }
 }
