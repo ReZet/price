@@ -1,12 +1,15 @@
+# category 1 (Shoes) has the same prices for all variants, 2 - Jewelry has different prices for variants
 POST localhost:8003/api/price
 Content-Type: application/x-www-form-urlencoded
 
 category=2&price=201&currency=EUR&name=Bracelet&variant=3
 
 ###
-#category=2&price=200&currency=EUR&name=Bracelet&variant=2
-#category=2&price=200&currency=EUR&name=Bracelet&variant=2
-#category 1 (Shoes) has the same prices for all variants, 2 - Jewelry is with different prices for variants
+#category=2&price=500&currency=EUR&name=Bracelet&variant=2
+#category=2&price=300&currency=EUR&name=Bracelet&variant=1
+#category=1&price=1000&currency=EUR&name=Sneakers&variant=43
+#category=1&price=1500&currency=EUR&name=Sneakers&variant=42
+
 #
 
 ###
