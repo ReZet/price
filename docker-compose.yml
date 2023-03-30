@@ -17,6 +17,7 @@ services:
             - MARIADB_DATABASE=myapp
         depends_on:
             - mariadb
+        working_dir: /app/myapp
     mariadb:
         image: 'bitnami/mariadb:10.11.2'
         environment:
