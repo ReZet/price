@@ -1,0 +1,13 @@
+POST localhost:8003/api/price
+Content-Type: application/x-www-form-urlencoded
+
+category=2&price=201&currency=EUR&name=Bracelet&variant=3
+
+###
+#category=2&price=200&currency=EUR&name=Bracelet&variant=2
+#category=2&price=200&currency=EUR&name=Bracelet&variant=2
+#category 1 (Shoes) has the same prices for all variants, 2 - Jewelry is with different prices for variants
+#
+
+###
+GET localhost:8003/api/price
